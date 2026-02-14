@@ -30,9 +30,7 @@ if __name__=="__main__":
     print("----------------")
     print(f"Inverse kinematics of the joint: {observation_joints}")
 
-    red_pos = robot.inverse_kinematics(red_place_pose)
-    green_pos = robot.inverse_kinematics(green_place_pose)
-    blue_pos = robot.inverse_kinematics(blue_place_pose)
+
 
     robot.put_on_conveyor()
     robot.move_joints(initial_joints)
@@ -44,11 +42,15 @@ if __name__=="__main__":
     try: 
         while (objects != 0):
 
-            # find an intermediate pose to pick up the object so that it can slow down ebfore it picks up the block.
+            # find an intermediate pose to pick up the object so that it can slow down before it picks up the block.
             # find a better way to place the block.
             # the blocks should stack on top of each other.
 
             # Track trajectory: L = [p1 (initial pose), p2 (observation pose), p3 (approach pose), p4 (Object pose), p5 (Approach again), p6 (Approach place), p7 (coloured area), p8 (approach place), p9 (initial pose)]
+
+            red_pos = robot.inverse_kinematics(red_place_pose)
+            green_pos = robot.inverse_kinematics(green_place_pose)
+            blue_pos = robot.inverse_kinematics(blue_place_pose)
             
             robot.move_joints(observation_joints)
 
@@ -65,11 +67,21 @@ if __name__=="__main__":
                 color_pose = robot.get_color_and_pose()
                 block_color = color_pose[0]
                 block_pos = color_pose[1]
-
+                
+                print(f"Position of the block: {block_pos}")
 
                 block_x = block_pos[1]
+
+                print(f"X-position of the block: {block_x}")
+
                 block_z = block_pos[2]
 
+                print(f"Z-position of the block: {block_z}")
+
+                print(f"Approach_pose_1: {approach_pose_1}")
+                print(f"Approach pose: {approach_pose}")
+                print(f"Approach pose [1]: {approach_pose[1]}")
+                print(f"Approach pose [2]: {approach_pose[2]}")
 
                 approach_pose[1] = block_x
                 approach_pose[2] = block_z
@@ -90,6 +102,10 @@ if __name__=="__main__":
 
                     robot.move_joints(red_pos)
                     robot.open_gripper()
+                    red_place_pose[2] += (block_z - 10)
+
+                    print(f"New position of the red place pose {red_place_pose}")
+
 
                 elif (block_color == 'GREEN'):
 
@@ -106,6 +122,10 @@ if __name__=="__main__":
                     robot.move_joints(green_pos)
                     robot.open_gripper()
 
+                    green_place_pose[2] += (block_z - 10)
+
+                    print(f"New position of the red place pose {green_place_pose}")
+
                 elif (block_color == 'BLUE'):
 
                     print("----------------")
@@ -120,9 +140,13 @@ if __name__=="__main__":
 
                     robot.move_joints(blue_pos)
                     robot.open_gripper()
+
+                    blue_place_pose[2] += (block_z - 10)
+
+                    print(f"New position of the red place pose {blue_place_pose}")
                 
                 robot.put_on_conveyor()
-                objects -= 1
+                objects -=1
                 print(f"Objects left: {objects}")
                 robot.run_conveyor()
 
@@ -134,10 +158,5 @@ if __name__=="__main__":
 
     except Exception as e:
         print(f"Error: {e}")
-    
-
 
     robot.close_connection()
-
-
-    
