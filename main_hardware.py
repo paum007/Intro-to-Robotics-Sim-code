@@ -6,7 +6,7 @@ from pyniryo import *
 if __name__=="__main__": 
 
     robot_ip_address = '10.10.10.10'
-    workspace_name = "PauFraser3"  # Robot's Workspace Name
+    workspace_name = "FraserPau"  # Robot's Workspace Name
     robot = NiryoRobot(robot_ip_address) # Connect to robot
 
     # Clear collision if detected during a previous movement
@@ -16,6 +16,16 @@ if __name__=="__main__":
     robot.calibrate_auto() # Calibrate robot if the robot needs calibration
     robot.update_tool()    # Updating tool
     robot.open_gripper()
+    print(robot.get_sounds())
+    # print(f"Reboot: {robot.play_sound('reboot.wav')}")
+    # print(f"Calibration: {robot.play_sound('calibration.wav')}")
+    # print(f"Error: {robot.play_sound('error.wav')}")
+    # print(f"Ready: {robot.play_sound('ready.wav')}")
+    # print(f"Stop: {robot.play_sound('stop.wav')}")
+    # print(f"Connected: {robot.play_sound('connected.wav')}")
+    # print(f"Disconnected: {robot.play_sound('disconnected.wav')}")
+    # print(f"Warn: {robot.play_sound('warn.wav')}")
+    # print(f"Learning: {robot.play_sound('learning_trajectory.wav')}")
 
     sensor_pin_id = 'DI5'  # Setting variables
     conveyor_id = robot.set_conveyor() # Activating connexion with the Conveyor Belt
@@ -33,8 +43,10 @@ if __name__=="__main__":
     red_joints = JointsPosition(1.1102,-0.4747,-0.6143,-0.3113,-0.5262,-0.1456)
     green_joints = JointsPosition(1.8971,-0.4277,-0.7506,-0.3143,-0.3713,-0.1456)
     blue_joints = JointsPosition(1.4314,-0.3398,-0.734,-0.052,-0.5262,-0.1456)
+    going_back = JointsPosition(0.8576,0.1661,-0.9006,0.0154,-0.8453,0.0016)
 
     robot.run_conveyor(conveyor_id)
+    robot.set_arm_max_velocity(100)
 
     robot.move_joints(initial_joints)
 
@@ -47,17 +59,17 @@ if __name__=="__main__":
             robot.open_gripper()
 
             if robot.digital_read(sensor_pin_id) == PinState.LOW:
-
                 robot.stop_conveyor(conveyor_id)
+                print(f"Connected: {robot.play_sound('connected.wav')}")
 
                 target_pos = robot.move_to_object(workspace_name, 0, ObjectShape.ANY, ObjectColor.ANY)
                 
                 print(f"0: {target_pos[0]}")
                 print(f"1: {target_pos[1]}")
                 print(f"2: {target_pos[2]}")
-                robot.shift_pose(RobotAxis.X, 0.010, True) # forward
-                robot.shift_pose(RobotAxis.Y, 0.010, True) # right/left
-                robot.shift_pose(RobotAxis.Z, -0.01, True) # down
+                # robot.shift_pose(RobotAxis.X, 0.007, True) # shift forward
+                # robot.shift_pose(RobotAxis.Y, 0.018, True) # shift left
+                robot.shift_pose(RobotAxis.Z, -0.01, True) # shift down
 
                 robot.close_gripper()
                 
@@ -83,6 +95,7 @@ if __name__=="__main__":
                     robot.move_joints(blue_joints)
                     robot.open_gripper()
                 
+                robot.move_joints(going_back)
                 robot.move_joints(observation_joints)
                 robot.run_conveyor(conveyor_id)
                 
@@ -92,11 +105,11 @@ if __name__=="__main__":
 
         robot.move_joints(initial_joints)
         robot.stop_conveyor(conveyor_id)
+        robot.play_sound('booting.wav')
 
     except KeyboardInterrupt:
         robot.stop_conveyor(conveyor_id)
         robot.move_joints(initial_joints)
-        robot.unset_conveyor(conveyor_id) # Deactivating connexion with the Conveyor Belt
         robot.close_connection()
 
     except Exception as e:
