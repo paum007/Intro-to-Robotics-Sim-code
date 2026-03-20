@@ -30,8 +30,6 @@ if __name__=="__main__":
     print("----------------")
     print(f"Inverse kinematics of the joint: {observation_joints}")
 
-
-
     robot.put_on_conveyor()
     robot.move_joints(initial_joints)
     robot.run_conveyor()
