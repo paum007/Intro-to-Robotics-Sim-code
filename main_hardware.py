@@ -7,8 +7,9 @@ import time
 if __name__=="__main__": 
 
     robot_ip_address = '10.10.10.10'
-    workspace_name = "PauFraser2"  # Robot's Workspace Name
+    workspace_name = "pp0"  # Robot's Workspace Name
     robot = NiryoRobot(robot_ip_address) # Connect to robot
+    # password for the robot hotspot connection: niryo
 
     # Clear collision if detected during a previous movement
     if robot.collision_detected:
