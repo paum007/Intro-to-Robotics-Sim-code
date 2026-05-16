@@ -7,9 +7,9 @@ import time
 if __name__=="__main__": 
 
     robot_ip_address = '10.10.10.10'
-    workspace_name = "pp0"  # Robot's Workspace Name
+    workspace_name = "paufraser"  # Robot's Workspace Name
     robot = NiryoRobot(robot_ip_address) # Connect to robot
-    # password for the robot hotspot connection: niryo
+    # password for the robot hotspot connection: niryorobot
 
     # Clear collision if detected during a previous movement
     if robot.collision_detected:
@@ -39,7 +39,7 @@ if __name__=="__main__":
 
     
     initial_joints = JointsPosition(0, 0, 0, 0, 0, 0)
-    observation_joints = JointsPosition(-0.089,0.1267,-0.6885,-0.0858,-1.2901,0.0338)
+    observation_joints = JointsPosition(0.0297,0.4585,-0.9309,0.0507,-1.241,-0.0505)
     approach_joints = JointsPosition(-0.025,-0.1959,-0.6416,-0.0213,-0.7854,-0.0934)
     ready_to_place = JointsPosition(1.4587,0.2191,-0.3704,-0.0551,-1.4282,-0.1226)
     red_joints = JointsPosition(1.1102,-0.4747,-0.6143,-0.3113,-0.5262,-0.1456)
