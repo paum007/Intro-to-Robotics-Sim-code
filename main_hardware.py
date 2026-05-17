@@ -10,7 +10,6 @@ if __name__=="__main__":
     robot_ip_address = '10.10.10.10'
     workspace_name = "paufraser"  # Robot's Workspace Name
     robot = NiryoRobot(robot_ip_address) # Connect to robot
-    # password for the robot hotspot connection: niryorobot
 
     # Clear collision if detected during a previous movement
     if robot.collision_detected:
@@ -20,15 +19,6 @@ if __name__=="__main__":
     robot.update_tool()    # Updating tool
     robot.open_gripper()
     print(robot.get_sounds())
-    # print(f"Reboot: {robot.play_sound('reboot.wav')}")
-    # print(f"Calibration: {robot.play_sound('calibration.wav')}")
-    # print(f"Error: {robot.play_sound('error.wav')}")
-    # print(f"Ready: {robot.play_sound('ready.wav')}")
-    # print(f"Stop: {robot.play_sound('stop.wav')}")
-    # print(f"Connected: {robot.play_sound('connected.wav')}")
-    # print(f"Disconnected: {robot.play_sound('disconnected.wav')}")
-    # print(f"Warn: {robot.play_sound('warn.wav')}")
-    # print(f"Learning: {robot.play_sound('learning_trajectory.wav')}")
 
     sensor_pin_id = 'DI5'  # digital input pin the IR sensor is wired to
     conveyor_id = robot.set_conveyor() # Activating connexion with the Conveyor Belt
@@ -79,10 +69,7 @@ if __name__=="__main__":
                 print(f"3: {target_pose[3]}")
 
                 robot.move(target_pose_coord) # moving to the block
-                # target_pos = robot.move_to_object(workspace_name, 0, ObjectShape.ANY, ObjectColor.ANY)
 
-                # robot.shift_pose(RobotAxis.X, 0.007, True) # shift forward
-                # robot.shift_pose(RobotAxis.Y, 0.018, True) # shift left
                 robot.shift_pose(RobotAxis.Z, -0.01, True) # shift down so the gripper reaches the block
 
                 robot.close_gripper() # gripper closes once it is at the block position
@@ -137,24 +124,10 @@ if __name__=="__main__":
         robot.stop_conveyor(conveyor_id) # stopping the conveyor
         robot.play_sound('booting.wav') # play a sound to confirm the routine is done
 
-    # Exceptions allowing for more readable debugging
-    # except KeyboardInterrupt:
-    #     robot.unset_conveyor(conveyor_id) # Deactivating connexion with the Conveyor Belt
-    #     robot.close_connection()
-
     except Exception as e:
         robot.unset_conveyor(conveyor_id) # Deactivating connexion with the Conveyor Belt
         robot.close_connection() # closing connection with the robot
         print(f"Error: {e}")
-
-    # robot.move(initial_joints)
-    # robot.move(observation_joints)
-    # robot.move(approach_joints)
-    # robot.move(ready_to_place)
-    # robot.move(red_joints)
-    # robot.move(green_joints)
-    # robot.move(blue_joints)
-    # robot.move(initial_joints)
 
 
     
