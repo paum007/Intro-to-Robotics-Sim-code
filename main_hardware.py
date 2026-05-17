@@ -88,6 +88,8 @@ if __name__=="__main__":
 
                 if (color == ObjectColor.RED):
                     print(f"Colour: {color}")
+                    robot.led_ring_solid('red')
+                    robot.led_ring_turn_off()
                     robot.move(ready_to_place)
                     robot.move(red_joints)
                     robot.open_gripper()
@@ -95,6 +97,8 @@ if __name__=="__main__":
 
                 elif (color == ObjectColor.GREEN):
                     print(f"Colour: {color}")
+                    robot.led_ring_solid('green')
+                    robot.led_ring_turn_off()
                     robot.move(ready_to_place)
                     robot.move(green_joints)
                     robot.open_gripper()
@@ -102,6 +106,8 @@ if __name__=="__main__":
 
                 elif (color == ObjectColor.BLUE):
                     print(f"Colour: {color}")
+                    robot.led_ring_solid('blue')
+                    robot.led_ring_turn_off()
                     robot.move(ready_to_place)
                     robot.move(blue_joints)
                     robot.open_gripper()
