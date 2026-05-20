@@ -8,7 +8,7 @@ import time
 if __name__=="__main__": 
 
     robot_ip_address = '10.10.10.10'
-    workspace_name = "paufraser"  # Robot's Workspace Name
+    workspace_name = "FCRPMM FINAL"  # Robot's Workspace Name
     robot = NiryoRobot(robot_ip_address) # Connect to robot
 
     # Clear collision if detected during a previous movement
@@ -79,8 +79,8 @@ if __name__=="__main__":
                 # checking for the colour: RED
                 if (color == ObjectColor.RED):
                     print(f"Colour: {color}")
-                    robot.led_ring_solid('red') # light up the LED ring to show the detected colour
-                    robot.led_ring_turn_off()
+                    #robot.led_ring_solid('red') # light up the LED ring to show the detected colour
+                    #robot.led_ring_turn_off()
                     robot.move(ready_to_place) # intermediate step to avoid collisions
                     robot.move(red_joints) # moving towards the red place section
                     robot.open_gripper() # release the block
@@ -89,8 +89,8 @@ if __name__=="__main__":
                 # checking for the colour: GREEN
                 elif (color == ObjectColor.GREEN):
                     print(f"Colour: {color}")
-                    robot.led_ring_solid('green') # light up the LED ring to show the detected colour
-                    robot.led_ring_turn_off()
+                    #robot.led_ring_solid('green') # light up the LED ring to show the detected colour
+                    #robot.led_ring_turn_off()
                     robot.move(ready_to_place) # intermediate step to avoid collisions
                     robot.move(green_joints) # moving towards the green place section
                     robot.open_gripper() # release the block
@@ -99,8 +99,8 @@ if __name__=="__main__":
                 # checking for the colour: BLUE
                 elif (color == ObjectColor.BLUE):
                     print(f"Colour: {color}")
-                    robot.led_ring_solid('blue') # light up the LED ring to show the detected colour
-                    robot.led_ring_turn_off()
+                    #robot.led_ring_solid('blue') # light up the LED ring to show the detected colour
+                    #robot.led_ring_turn_off()
                     robot.move(ready_to_place) # intermediate step to avoid collisions
                     robot.move(blue_joints) # moving towards the blue place section
                     robot.open_gripper() # release the block
