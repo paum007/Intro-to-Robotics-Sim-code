@@ -1,5 +1,5 @@
 # imports
-from pyniryo import *
+from pyniryo import * # type:ignore
 import time
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,6 @@ if __name__=="__main__":
     red_joints = JointsPosition(1.1102,-0.4747,-0.6143,-0.3113,-0.5262,-0.1456)        # drop position for red blocks
     green_joints = JointsPosition(1.8971,-0.4277,-0.7506,-0.3143,-0.3713,-0.1456)      # drop position for green blocks
     blue_joints = JointsPosition(1.4314,-0.3398,-0.734,-0.052,-0.5262,-0.1456)         # drop position for blue blocks
-    going_back = JointsPosition(0.8576,0.1661,-0.9006,0.0154,-0.8453,0.0016)           # safe pose for the return path
 
     initial_pose = PoseObject(0, 0, 0, 0, 0, 0)
 
@@ -116,7 +115,7 @@ if __name__=="__main__":
                 - Take away one from the object count
                 - Print the objects left for debugging
                 '''
-                robot.move(going_back) # safe pose to avoid collision on the way back
+                robot.move(ready_to_place) # safe pose to avoid collision on the way back
                 robot.move(observation_joints)
                 robot.run_conveyor(conveyor_id)
 
