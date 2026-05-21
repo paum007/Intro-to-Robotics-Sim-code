@@ -44,6 +44,7 @@ if __name__=="__main__":
     # Doing the initial process: start the conveyor, set the speed and move to the home position
     robot.run_conveyor(conveyor_id)
     robot.set_arm_max_velocity(100) # capping the arm speed at 100%
+    robot.led_ring_solid([255, 255, 255])
     print("Moving")
     robot.move(initial_joints)
 
@@ -79,8 +80,9 @@ if __name__=="__main__":
                 # checking for the colour: RED
                 if (color == ObjectColor.RED):
                     print(f"Colour: {color}")
-                    #robot.led_ring_solid('red') # light up the LED ring to show the detected colour
-                    #robot.led_ring_turn_off()
+                    robot.led_ring_solid([255, 0, 0]) # light up the LED ring to show the detected colour
+                    time.sleep(1)
+                    robot.led_ring_solid([255, 255, 255])
                     robot.move(ready_to_place) # intermediate step to avoid collisions
                     robot.move(red_joints) # moving towards the red place section
                     robot.open_gripper() # release the block
@@ -89,8 +91,9 @@ if __name__=="__main__":
                 # checking for the colour: GREEN
                 elif (color == ObjectColor.GREEN):
                     print(f"Colour: {color}")
-                    #robot.led_ring_solid('green') # light up the LED ring to show the detected colour
-                    #robot.led_ring_turn_off()
+                    robot.led_ring_solid([0, 255, 0]) # light up the LED ring to show the detected colour
+                    time.sleep(1)
+                    robot.led_ring_solid([255, 255, 255])
                     robot.move(ready_to_place) # intermediate step to avoid collisions
                     robot.move(green_joints) # moving towards the green place section
                     robot.open_gripper() # release the block
@@ -99,8 +102,9 @@ if __name__=="__main__":
                 # checking for the colour: BLUE
                 elif (color == ObjectColor.BLUE):
                     print(f"Colour: {color}")
-                    #robot.led_ring_solid('blue') # light up the LED ring to show the detected colour
-                    #robot.led_ring_turn_off()
+                    robot.led_ring_solid([0, 0, 255]) # light up the LED ring to show the detected colour
+                    time.sleep(1)
+                    robot.led_ring_solid([255, 255, 255])
                     robot.move(ready_to_place) # intermediate step to avoid collisions
                     robot.move(blue_joints) # moving towards the blue place section
                     robot.open_gripper() # release the block
@@ -122,7 +126,7 @@ if __name__=="__main__":
 
         robot.move(initial_joints) # moving back to the initial joints once there are no more blocks left
         robot.stop_conveyor(conveyor_id) # stopping the conveyor
-        robot.play_sound('booting.wav') # play a sound to confirm the routine is done
+        robot.led_ring_rainbow(5, 2, True) # making the ring light up after the robot has finished placing all the 6 pieces
 
     except Exception as e:
         robot.unset_conveyor(conveyor_id) # Deactivating connexion with the Conveyor Belt
