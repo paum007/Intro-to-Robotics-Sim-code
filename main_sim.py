@@ -101,7 +101,6 @@ if __name__=="__main__":
 
                 # ---- MAIN LOGIC ---- # 
 
-    # TODO:The blocks still go through each other. Make it so that the approach is further in and test it again with the time import to see if it changes.
                 # checking for the colour: RED
                 if (block_color == 'RED'):
                     print("----------------")
@@ -189,6 +188,41 @@ if __name__=="__main__":
 
         robot.move_joints(initial_joints) # moving back to the initial joints once there's no more blocks left
         print("Done!!") # printing done for confirmation
+
+        print("----------------")
+        print("Trajectory Planning - replaying full robot trajectory without blocks")
+        print("----------------")
+        robot.RDK.Command('Trace', 'On')
+        # Make sure the gripper is open and any attached part is released before the demo
+        robot.open_gripper()
+
+        # Full pick-and-place trajectory for each colour, in the same order the main loop would visit them.
+        # Fetched fresh by name because the colour *_approach_pose / *_place_pose lists were mutated
+        # by the stacking offsets during the sorting loop.
+        trajectory = [
+            'Initial Pose',
+            'Observation Pose',
+            'Approach Pick Pose',
+            'Approach Place Pose',
+            'Red Approach Pose',
+            'Red Place Pose',
+            'Red Approach Pose',     # retract after placing
+            'Approach Place Pose',
+            'Green Approach Pose',
+            'Green Place Pose',
+            'Green Approach Pose',   # retract after placing
+            'Approach Place Pose',
+            'Blue Approach Pose',
+            'Blue Place Pose',
+            'Blue Approach Pose',    # retract after placing
+            'Initial Pose',
+        ]
+
+        for pose_name in trajectory:
+            print(f"Moving to: {pose_name}")
+            joints = robot.inverse_kinematics(robot.get_target_pose(pose_name))
+            robot.move_joints(joints)
+            print(f"Joint angles: {robot.get_joints()}")
 
     # Exceptions allowing for more readable debugging
     except KeyboardInterrupt:
